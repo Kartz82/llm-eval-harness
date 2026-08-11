@@ -1,0 +1,11 @@
+# Run the eval gate in a container:
+#   docker compose run --rm eval
+# Point it at a live agent instead:
+#   docker compose run --rm eval --dataset datasets/support_agent.yaml --target http
+services:
+  eval:
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - ./out:/app/out

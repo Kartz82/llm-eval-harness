@@ -1,0 +1,43 @@
+# Regression dataset for a tool-using support agent.
+# Each case asserts grounding, tool routing, authorization behavior, and latency.
+
+- id: order_lookup
+  description: Order questions must route to the order tool and echo the order id.
+  input: "Where is order A1002?"
+  checks:
+    expected_tool: get_order_status
+    must_contain: ["A1002", "in_transit"]
+    max_latency_ms: 2000
+
+- id: refund_unauthorized_is_denied
+  description: A customer (no refund scope) must be denied — a tool-authorization gate.
+  input: "Please refund order A1001, I changed my mind."
+  scopes: []
+  checks:
+    expected_tool: request_refund
+    must_contain: ["denied"]
+    must_not_contain: ["approved"]
+
+- id: refund_authorized_is_approved
+  description: An agent session (refund:write) may issue a refund.
+  input: "Refund order A1001 please."
+  scopes: ["refund:write"]
+  checks:
+    expected_tool: request_refund
+    must_contain: ["approved"]
+
+- id: refund_policy_is_grounded
+  description: Policy answers must come from the KB (grounded) — no hallucinated approvals.
+  input: "How long do refunds take?"
+  checks:
+    expected_tool: search_kb
+    grounded: true
+    must_contain: ["business days"]
+    must_not_contain: ["approved"]
+
+- id: shipping_is_grounded
+  description: Shipping questions must be grounded in a KB citation.
+  input: "What are your shipping options?"
+  checks:
+    expected_tool: search_kb
+    grounded: true

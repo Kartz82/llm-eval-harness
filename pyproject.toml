@@ -1,0 +1,17 @@
+[project]
+name = "llm-eval-harness"
+version = "0.1.0"
+description = "LLM/agent evaluation and regression harness: grounding, tool-routing, latency and schema checks with a CI release gate, SQL data reconciliation, and a k6 perf gate."
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
