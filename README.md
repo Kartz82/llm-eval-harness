@@ -1,5 +1,9 @@
 # LLM Eval / Regression Harness
 
+[![ci](https://github.com/Kartz82/llm-eval-harness/actions/workflows/ci.yml/badge.svg)](https://github.com/Kartz82/llm-eval-harness/actions/workflows/ci.yml)
+[![python](https://img.shields.io/badge/python-3.10%20%7C%203.11-blue)](pyproject.toml)
+[![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
 A test harness for **LLM and agent quality**: run a dataset of cases against a
 target, assert **grounding, citations, tool routing, authorization behavior,
 latency SLOs and JSON-schema** conformance, then **gate CI** on pass-rate and
