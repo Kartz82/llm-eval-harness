@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     agent_base_url: str = "http://localhost:8000"
 
     google_api_key: str = ""
-    model_name: str = "gemini-2.0-flash"
+    model_name: str = "gemini-2.5-flash"
 
     pass_threshold: float = 1.0
 

@@ -127,8 +127,13 @@ class GeminiTarget(Target):
         llm = ChatGoogleGenerativeAI(
             model=settings.model_name, google_api_key=settings.google_api_key
         )
-        text = llm.invoke(case.input).content
-        return Response(text=str(text), latency_ms=(time.perf_counter() - start) * 1000)
+        content = llm.invoke(case.input).content
+        # Newer Gemini models return a list of typed blocks; flatten to plain text.
+        if isinstance(content, list):
+            content = "".join(
+                b.get("text", "") if isinstance(b, dict) else str(b) for b in content
+            ).strip()
+        return Response(text=str(content), latency_ms=(time.perf_counter() - start) * 1000)
 
 
 def build_target(kind: str | None = None) -> Target:
